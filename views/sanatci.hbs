@@ -1,0 +1,156 @@
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Sanatçı Sayfası</title>
+    <link href="/assets/css/bootstrap.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div class="container">
+    <h2>Sanatçı Listesi</h2>
+    <button class="btn btn-success" data-toggle="modal" data-target="#myModalAdd">Yeni Sanatçı Ekle</button>
+    <a href="/" style="color:#fff;"><button class="btn btn-warning">Anasayfaya Dön</button></a>
+    <table class="table table-striped" id="mytable">
+        <thead>
+        <tr>
+            <th>Sanatçı ID</th>
+            <th>Sanatçı Adı</th>
+            <th>Sanatçı Yaşıyormu</th>
+            <th>Sanatçı Doğum Tarihi</th>
+            <th>Eklenme Tarihi</th>
+            <th>Düzenle</th>
+            <th>Sil</th>     
+        </tr>
+        </thead>
+        <tbody>
+        {{#each results}}
+            <tr>
+                <td>{{ SanatciId }}</td>
+                <td>{{ SanatciAdi }}</td>
+                <td>{{ SanatciYasiyormu }}</td>
+                <td>{{ SanatciDogumTarihi }}</td>
+                <td>{{ EklenmeTarihi }}</td>
+                <td><a href="javascript:void(0);" class="btn btn-sm btn-info edit" data-id="{{ SanatciId }}" data-SanatciAdi="{{ SanatciAdi }}" data-SanatciYasiyormu="{{ SanatciYasiyormu }}" data-SanatciDogumTarihi="{{ SanatciDogumTarihi }}" data-EklenmeTarihi="{{ EklenmeTarihi }}">Düzenle</a></td>
+                <td><a href="javascript:void(0);" class="btn btn-sm btn-danger delete" data-id="{{ SanatciId }}">Sil</a></td>
+            </tr>
+        {{/each}}
+        </tbody>
+    </table>
+</div>
+<form action="/sanatciadd" method="post">
+    <div class="modal fade" id="myModalAdd" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Sanatçı Ekle</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <input type="text" name="SanatciAdi" class="form-control" placeholder="Sanatçı Adı" required>
+                    </div>
+                     <div class="form-group">
+                         <span>Sanatci Yasiyor mu?</span>
+                         <select name="SanatciYasiyormu" id="SanatciYasiyormu">
+                             <option value="Evet">Evet</option>
+                             <option value="Hayır">Hayır</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <input type="date" name="SanatciDogumTarihi" class="form-control" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+                    <button type="submit" class="btn btn-primary">Kaydet</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<!-- Sanatçı Düzenle-->
+<form action="/sanatciupdate" method="post">
+    <div class="modal fade" id="EditModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Sanatçı Düzenle</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <input type="text" name="SanatciAdi" class="form-control" placeholder="Sanatçı Adı" required>
+                    </div>
+                     <div class="form-group">
+                         <span>Sanatci Yasiyor mu?</span>
+                         <select name="SanatciYasiyormu" id="SanatciYasiyormu">
+                             <option value="Evet">Evet</option>
+                             <option value="Hayır">Hayır</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <input type="date" name="SanatciDogumTarihi" class="form-control" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="hidden" name="SanatciId" class="SanatciId">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+                    <button type="submit" class="btn btn-primary">Düzenle</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<!-- Sanatçı Sil-->
+<form id="add-row-form" action="/sanatcidelete" method="post">
+    <div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="myModalLabel">Sanatçı Sil</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <strong>Sanatçıyı silmek istediğinize emin misiniz?</strong>
+                </div>
+                <div class="modal-footer">
+                    <input type="hidden" name="SanatciId" class="form-control SanatciId2" required>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Kapat</button>
+                    <button type="submit" class="btn btn-success">Sil</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<script src="/assets/js/jquery-3.3.1.min.js"></script>
+<script src="/assets/js/bootstrap.js"></script>
+<script>
+    $(document).ready(function () {
+        //modelde görüntülemek için verileri alıyoruz
+        $('#mytable').on('click', '.edit', function () {
+            var SanatciId = $(this).data('id');
+            var SanatciAdi = $(this).data('SanatciAdi');
+            var SanatciYasiyormu = $(this).data('SanatciYasiyormu');
+            var SanatciDogumTarihi = $(this).data('SanatciDogumTarihi');
+            $('#EditModal').modal('show');
+            $('.SanatciAdi').val(SanatciAdi);
+            $('.SanatciYasiyormu').val(SanatciYasiyormu);
+            $('.SanatciDogumTarihi').val(SanatciDogumTarihi);
+            $('.SanatciId').val(SanatciId);
+        });
+        //modelde görüntülemek için verileri alıyoruz
+        $('#mytable').on('click', '.delete', function () {
+            var SanatciId = $(this).data('id');
+            $('#DeleteModal').modal('show');
+            $('.SanatciId2').val(SanatciId);
+        });
+    });
+</script>
+</body>
+</html>

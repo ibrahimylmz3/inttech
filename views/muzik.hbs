@@ -1,0 +1,127 @@
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Müzik Türü Sayfası</title>
+    <link href="/assets/css/bootstrap.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div class="container">
+    <h2>Müzik Türü Listesi</h2>
+    <button class="btn btn-success" data-toggle="modal" data-target="#myModalAdd">Yeni Tür Ekle</button>
+    <a href="/" style="color:#fff;"><button class="btn btn-warning">Anasayfaya Dön</button></a>
+    <table class="table table-striped" id="mytable">
+        <thead>
+        <tr>
+            <th>Müzik ID</th>
+            <th>Müzik Türü</th>
+            <th>Düzenle</th>
+            <th>Sil</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{#each results}}
+            <tr>
+                <td>{{ MuzikTurId }}</td>
+                <td>{{ MuzikTur }}</td>
+                <td><a href="javascript:void(0);" class="btn btn-sm btn-info edit" data-id="{{ MuzikTurId }}" data-MuzikTur="{{ MuzikTur }}">Düzenle</a></td>
+                <td><a href="javascript:void(0);" class="btn btn-sm btn-danger delete" data-id="{{ MuzikTurId }}">Sil</a></td>
+            </tr>
+        {{/each}}
+        </tbody>
+    </table>
+</div>
+<form action="/muzikturadd" method="post">
+    <div class="modal fade" id="myModalAdd" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Yeni Müzik Türü Ekle</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <input type="text" name="MuzikTur" class="form-control" placeholder="Müzik Türü" required>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+                    <button type="submit" class="btn btn-primary">Kaydet</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<!-- Müzik Türü Düzenle -->
+<form action="/muzikturupdate" method="post">
+    <div class="modal fade" id="EditModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Müzik Türü Düzenle</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <input type="text" name="MuzikTur" class="form-control MuzikTur" placeholder="Muzik Türü" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="hidden" name="MuzikTurId" class="MuzikTurId">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+                    <button type="submit" class="btn btn-primary">Düzenle</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<!-- Müzük türü sil-->
+<form id="add-row-form" action="/muzikturdelete" method="post">
+    <div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="myModalLabel">Müzik Türü Sil</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <strong>Müzik türünü silmek istediğinize emin misiniz?</strong>
+                </div>
+                <div class="modal-footer">
+                    <input type="hidden" name="MuzikTurId" class="form-control MuzikTurId2" required>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Kapat</button>
+                    <button type="submit" class="btn btn-success">Sil</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<script src="/assets/js/jquery-3.3.1.min.js"></script>
+<script src="/assets/js/bootstrap.js"></script>
+<script>
+    $(document).ready(function () {
+        //modelde görüntülemek için verileri alıyoruz
+        $('#mytable').on('click', '.edit', function () {
+            var MuzikTurId = $(this).data('id');
+            var MuzikTur = $(this).data('MuzikTur');
+            $('#EditModal').modal('show');
+            $('.MuzikTur').val(MuzikTur);
+            $('.MuzikTurId').val(MuzikTurId);
+        });
+        //modelde görüntülemek için verileri alıyoruz
+        $('#mytable').on('click', '.delete', function () {
+            var MuzikTurId = $(this).data('id');
+            $('#DeleteModal').modal('show');
+            $('.MuzikTurId2').val(MuzikTurId);
+        });
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,178 @@
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Albüm Sayfası</title>
+    <link href="/assets/css/bootstrap.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div class="container">
+    <h2>Albüm Listesi</h2>
+    <button class="btn btn-success" data-toggle="modal" data-target="#myModalAdd">Yeni Albüm Ekle</button>
+    <a href="/" style="color:#fff;"><button class="btn btn-warning">Anasayfaya Dön</button></a>
+    <table class="table table-striped" id="mytable">
+        <thead>
+        <tr>
+            <th>Albüm ID</th>
+            <th>Albüm Adı</th>
+            <th>Çıkış Tarihi</th>
+            <th>Sanatcı ID</th>
+            <th>Müzik Tür ID</th>
+            <th>Düzenle</th>
+            <th>Sil</th>     
+        </tr>
+        </thead>
+        <tbody>
+        {{#each results}}
+            <tr>
+                <td>{{ AlbumId }}</td>
+                <td>{{ AlbumAdi }}</td>
+                <td>{{ CikisTarihi }}</td>
+                <td>{{ SanatciId }}</td>
+                <td>{{ MuzikTurId }}</td>
+                <td><a href="javascript:void(0);" class="btn btn-sm btn-info edit" data-id="{{ AlbumId }}" data-AlbumAdi="{{ AlbumAdi }}" data-CikisTarihi="{{ CikisTarihi }}" data-SanatciId="{{ SanatciId }}" data-MuzikTurId="{{ MuzikTurId }}">Düzenle</a></td>
+                <td><a href="javascript:void(0);" class="btn btn-sm btn-danger delete" data-id="{{ AlbumId }}">Sil</a></td>
+            </tr>
+        {{/each}}
+        </tbody>
+    </table>
+</div>
+<form action="/albumadd" method="post">
+    <div class="modal fade" id="myModalAdd" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Albüm Ekle</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <input type="text" name="AlbumAdi" class="form-control" placeholder="Albüm Adı" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="CikisTarihi" class="form-control" placeholder="Çıkış Tarihi?" required>
+                    </div>
+                     <div class="form-group">
+                          <span>Sanatçı ID?</span>
+                         <select name="SanatciId" id="SanatciId">
+                        {{#each results}}
+                        <option value="{{ SanatciId }}">{{ SanatciId }}</option>
+                        {{/each}}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                         <span>Müzik Tür ID?</span>
+                         <select name="MuzikTurId" id="MuzikTurId">
+                        {{#each results}}
+                        <option value="{{ MuzikTurId }}">{{ MuzikTurId }}</option>
+                        {{/each}}
+                        </select>
+                    </div>
+                   
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+                    <button type="submit" class="btn btn-primary">Kaydet</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<!-- Albüm Düzenle-->
+<form action="/albumupdate" method="post">
+    <div class="modal fade" id="EditModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Albüm Düzenle</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <input type="text" name="AlbumAdi" class="form-control" placeholder="Albüm Adı" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="CikisTarihi" class="form-control" placeholder="Çıkış Tarihi?" required>
+                    </div>
+                    <div class="form-group">
+                          <span>Sanatçı ID?</span>
+                         <select name="SanatciId" id="SanatciId">
+                        {{#each results}}
+                        <option value="{{ SanatciId }}">{{ SanatciId }}</option>
+                        {{/each}}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                         <span>Müzik Tür ID?</span>
+                         <select name="MuzikTurId" id="MuzikTurId">
+                        {{#each results}}
+                        <option value="{{ MuzikTurId }}">{{ MuzikTurId }}</option>
+                        {{/each}}
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="hidden" name="AlbumId" class="AlbumId">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+                    <button type="submit" class="btn btn-primary">Düzenle</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<!-- Albüm Sil-->
+<form id="add-row-form" action="/albumdelete" method="post">
+    <div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="myModalLabel">Albüm Sil</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <strong>Albümü silmek istediğinize emin misiniz?</strong>
+                </div>
+                <div class="modal-footer">
+                    <input type="hidden" name="AlbumId" class="form-control AlbumId2" required>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Kapat</button>
+                    <button type="submit" class="btn btn-success">Sil</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<script src="/assets/js/jquery-3.3.1.min.js"></script>
+<script src="/assets/js/bootstrap.js"></script>
+<script>
+    $(document).ready(function () {
+        //modelde görüntülemek için verileri alıyoruz
+        $('#mytable').on('click', '.edit', function () {
+            var AlbumId = $(this).data('id');
+            var AlbumAdi = $(this).data('AlbumAdi');
+            var CikisTarihi = $(this).data('CikisTarihi');
+            var SanatciId = $(this).data('SanatciId');
+            var MuzikTurId = $(this).data('MuzikTurId');
+            $('#EditModal').modal('show');
+            $('.AlbumAdi').val(AlbumAdi);
+            $('.CikisTarihi').val(CikisTarihi);
+            $('.SanatciId').val(SanatciId);
+            $('.MuzikTurId').val(MuzikTurId);
+            $('.AlbumId').val(AlbumId);
+        });
+        //modelde görüntülemek için verileri alıyoruz
+        $('#mytable').on('click', '.delete', function () {
+            var AlbumId = $(this).data('id');
+            $('#DeleteModal').modal('show');
+            $('.AlbumId2').val(AlbumId);
+        });
+    });
+</script>
+</body>
+</html>
